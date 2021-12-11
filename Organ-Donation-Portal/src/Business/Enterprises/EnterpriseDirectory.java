@@ -38,15 +38,14 @@ public class EnterpriseDirectory {
 //            enterprise=new NGOEnterprise(name);
 //            enterpriseList.add(enterprise);
 //        }
-//        if(type==Enterprise.EnterpriseType.Logistic){
-//            enterprise=new LogisticEnterprise(name);
-//            enterpriseList.add(enterprise);
-//        }
-//
+        if(type==Enterprise.EnterpriseType.Transportation){
+            enterprise=new TranspotationEnterprise(name);
+            enterpriseList.add(enterprise);
+        }
 //        if(type==Enterprise.EnterpriseType.Government){
-//            enterprise = new GovernmentEnterprise(name);
-//            enterpriseList.add(enterprise);
-//        }
+//           enterprise = new GovernmentEnterprise(name);
+//           enterpriseList.add(enterprise);
+//       }
         return enterprise;
     }
 }

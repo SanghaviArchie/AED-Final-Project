@@ -5,10 +5,24 @@
  */
 package Business.Role;
 
+import Business.EcoSystem;
+import Business.Network.Network;
+import Business.UserAccount.UserAccount;
+import javax.swing.JPanel;
+
 /**
  *
  * @author DELL
  */
 public class AdminRole {
+//    @Override
+//    public JPanel createWorkArea(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise,Network network, EcoSystem business) {
+//        return new AdminWorkAreaJPanel(userProcessContainer,network, enterprise);
+//  
+//    }
     
+    @Override
+    public String toString() {
+        return Role.RoleType.Admin.getValue();
+    }
 }

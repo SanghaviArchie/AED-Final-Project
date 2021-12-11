@@ -31,7 +31,46 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
          this.userProcessContainer=userProcessContainer;
         this.ecosystem=ecosystem;
     }
-
+    public void populateTable(){
+        DefaultTreeModel model=(DefaultTreeModel)jTree.getModel();
+        ArrayList<Network> networkList=ecosystem.getNetworkList();
+        ArrayList<Enterprise> enterpriseList;
+        ArrayList<Organisation> organisationList;
+        
+        Network network;
+        Enterprise enterprise;
+        Organisation organisation;
+        
+        DefaultMutableTreeNode networks=new DefaultMutableTreeNode("Networks");
+        DefaultMutableTreeNode root=(DefaultMutableTreeNode)model.getRoot();
+        root.removeAllChildren();
+        root.insert(networks, 0);
+        
+        DefaultMutableTreeNode networkNode;
+        DefaultMutableTreeNode enterpriseNode;
+        DefaultMutableTreeNode organizationNode;
+        
+        for(int i=0;i<networkList.size();i++){
+            network=networkList.get(i);
+            networkNode=new DefaultMutableTreeNode(network.getName());
+            networks.insert(networkNode, i);
+            
+            enterpriseList=network.getEnterpriseDirectory().getEnterpriseList();
+            for(int j=0; j<enterpriseList.size();j++){
+                enterprise=enterpriseList.get(j);
+                enterpriseNode=new DefaultMutableTreeNode(enterprise.getName());
+                networkNode.insert(enterpriseNode, j);
+                
+                organisationList=enterprise.getOrganisationDirectory().getOrganizationList();
+                for(int k=0;k<organisationList.size();k++){
+                    organisation=organisationList.get(k);
+                    organizationNode=new DefaultMutableTreeNode(organisation.getName());
+                    enterpriseNode.insert(organizationNode, k);
+                }
+            }
+        }
+        model.reload();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,6 +84,8 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
         btnCity = new javax.swing.JButton();
         btnEnterprise = new javax.swing.JButton();
         btnEnterpriseAdmin = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTree = new javax.swing.JTree();
 
         jLabel1.setText("System Admin Work Area");
 
@@ -56,15 +97,28 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
         });
 
         btnEnterprise.setText("Manage Enterprise");
+        btnEnterprise.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnterpriseActionPerformed(evt);
+            }
+        });
 
         btnEnterpriseAdmin.setText("Manage Enterprise Admins");
+        btnEnterpriseAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnterpriseAdminActionPerformed(evt);
+            }
+        });
+
+        jScrollPane1.setViewportView(jTree);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(107, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnEnterpriseAdmin)
                     .addComponent(btnEnterprise)
@@ -91,6 +145,7 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEnterpriseAdmin)
                 .addContainerGap(111, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -102,11 +157,29 @@ public class SystemAdminWorkAreaJPanel extends javax.swing.JPanel {
         layout.next(userProcessContainer);
     }//GEN-LAST:event_btnCityActionPerformed
 
+    private void btnEnterpriseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterpriseActionPerformed
+        // TODO add your handling code here:
+         ManageEnterprisesJPanel manageEnterprisesJPanel=new ManageEnterprisesJPanel(userProcessContainer, ecosystem);
+        userProcessContainer.add("manageEnterprisesJPanel",manageEnterprisesJPanel);
+        CardLayout layout=(CardLayout)userProcessContainer.getLayout();
+        layout.next(userProcessContainer);
+    }//GEN-LAST:event_btnEnterpriseActionPerformed
+
+    private void btnEnterpriseAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnterpriseAdminActionPerformed
+        // TODO add your handling code here:
+         ManageAdminEnterpriseJPanel manageEnterpriseAdminJPanel=new ManageAdminEnterpriseJPanel(userProcessContainer, ecosystem);
+        userProcessContainer.add("manageEnterpriseAdminJPanel",manageEnterpriseAdminJPanel);
+        CardLayout layout=(CardLayout)userProcessContainer.getLayout();
+        layout.next(userProcessContainer);
+    }//GEN-LAST:event_btnEnterpriseAdminActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCity;
     private javax.swing.JButton btnEnterprise;
     private javax.swing.JButton btnEnterpriseAdmin;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTree jTree;
     // End of variables declaration//GEN-END:variables
 }
