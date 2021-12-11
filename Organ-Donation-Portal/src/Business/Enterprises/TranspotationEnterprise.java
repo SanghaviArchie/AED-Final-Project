@@ -5,10 +5,33 @@
  */
 package Business.Enterprises;
 
+import Business.Role.Role;
+import java.util.ArrayList;
+
 /**
  *
  * @author DELL
  */
-public class TranspotationEnterprise {
+public class TranspotationEnterprise extends Enterprise{
+    public enum Type{
+        Admin("Admin Organization"), Transportation("Transportation Organization");
+        private String type;
+
+        public String getType() {
+            return type;
+        }
+        private Type(String type) {
+            this.type = type;
+        }
+
+    }
     
+    public TranspotationEnterprise(String name){
+        super(name,EntType.Transportation);
+    }
+    
+    @Override
+    public ArrayList<Role> getRoleList() {
+        return null;
+    }
 }
